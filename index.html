@@ -84,10 +84,8 @@
         <div class="model-select">
             <label for="model">انتخاب مدل:</label>
             <select id="model">
-                <option value="qwen2.7">Qwen2.7</option>
-                <option value="gemma-2">Gemma-2</option>
-                <option value="deepseek3">Deepseek-3</option>
-                <option value="gpt-3.5">GPT-3.5</option>
+                <option value="qwen">Qwen 72B</option>
+                <option value="gemma">Gemma 9B</option>
             </select>
         </div>
 
@@ -103,14 +101,34 @@
     </div>
 
     <script>
-        function submitQuestion() {
-            const question = document.getElementById('question').value;
-            const model = document.getElementById('model').value;
-            
-            // اینجا میتوانید منطق ارسال به سرور را اضافه کنید
-            // نمایش پاسخ نمونه:
-            document.getElementById('response').textContent = "این یک پاسخ نمونه است. پاسخ واقعی از سرور دریافت خواهد شد.";
+async function submitQuestion() {
+    const question = document.getElementById('question').value;
+    const model = document.getElementById('model').value;
+    const responseDiv = document.getElementById('response');
+    
+    // URL سرور را اینجا قرار دهید
+    const API_URL = 'https://your-huggingface-space-url.hf.space/api/chat';
+    
+    responseDiv.textContent = "در حال پردازش...";
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({question, model})
+        });
+        
+        const data = await response.json();
+        if(data.success) {
+            responseDiv.textContent = data.answer;
+        } else {
+            responseDiv.textContent = "خطا: " + data.error;
         }
+    } catch(error) {
+        responseDiv.textContent = "خطای ارتباط با سرور: " + error.message;
+    }
+}
+
 
         function copyResponse() {
             const responseText = document.getElementById('response').textContent;
