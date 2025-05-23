@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot Vira</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 40px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .model-select {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .response-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            padding: 5px 10px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="model-select">
+            <label for="model">انتخاب مدل:</label>
+            <select id="model">
+                <option value="gpt-3.5">GPT-3.5</option>
+                <option value="gpt-4">GPT-4</option>
+                <option value="gemini">Gemini</option>
+            </select>
+        </div>
+
+        <div class="input-section">
+            <textarea id="question" placeholder="سوال خود را اینجا بنویسید..."></textarea>
+            <button onclick="submitQuestion()">ارسال</button>
+        </div>
+
+        <div class="response-box">
+            <button class="copy-btn" onclick="copyResponse()">کپی</button>
+            <div id="response"></div>
+        </div>
+    </div>
+
+    <script>
+        function submitQuestion() {
+            const question = document.getElementById('question').value;
+            const model = document.getElementById('model').value;
+            
+            // اینجا میتوانید منطق ارسال به سرور را اضافه کنید
+            // نمایش پاسخ نمونه:
+            document.getElementById('response').textContent = "این یک پاسخ نمونه است. پاسخ واقعی از سرور دریافت خواهد شد.";
+        }
+
+        function copyResponse() {
+            const responseText = document.getElementById('response').textContent;
+            navigator.clipboard.writeText(responseText)
+                .then(() => alert('متن کپی شد!'))
+                .catch(err => console.error('خطا در کپی:', err));
+        }
+
+        // تنظیم ارتفاع خودکار برای textarea
+        document.getElementById('question').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    </script>
+</body>
+</html>
